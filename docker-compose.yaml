@@ -3,8 +3,15 @@ services:
   postgres:
     image: postgres:13-alpine
     environment:
-      POSTGRES_DB: tenant_dev
+      POSTGRES_DB: postgres
       POSTGRES_USER: user
       POSTGRES_PASSWORD: password
     ports:
       - "5432:5432"
+  grafana:
+    image: grafana/grafana:latest
+    volumes:
+      - ./grafana.ini:/etc/grafana/grafana.ini
+      - ./grafana-data:/etc/grafana
+    ports:
+      - "8000:3000"

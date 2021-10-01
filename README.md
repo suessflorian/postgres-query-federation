@@ -6,7 +6,7 @@ Postgres is shipped with the [`postgres_fdw`](https://www.postgresql.org/docs/13
 
 Consider a separate database to that of any of the tenants' databases;
 
-```sql
+```shell
 CREATE SERVER tenant_a_fdw_target
   FOREIGN DATA WRAPPER postgres_fdw
     OPTIONS
@@ -19,7 +19,8 @@ CREATE FOREIGN TABLE tenant_a_entities(
 ```
 
 Creates a locally querable construct called `foreign table`.
-```sql
+
+```shell
 -- \dE to list foreign tables
 
 -- for example, staleness monitoring of entities
@@ -42,7 +43,7 @@ _Note; there is currently no such wrapper for a GraphQL data source (as of Oct 1
 [Grafana](https://github.com/grafana/grafana) is a very popular monitoring and observability platform that namely supports the ingestion of [an increasing list](https://grafana.com/docs/grafana/latest/datasources) of datasources. However, Grafana defines a datasources via a single connection. Problems:
 
 - In a tenant per database architecture, the tenant count would linearly affect the quantity of data sources required for full monitoring coverage.
-- This is especially a problem with regard to multi-service architectures (for example, [nano-services](https://github.com/movio/red) 😉 jk jk), as service boundaries are quite commonly define database boundaries. This suggests service count could also linearly affect the quantity of data sources required for full monitoring coverage.
+- This is especially a problem with regard to multi-service architectures (for example, micro-services), as service boundaries are quite commonly define database boundaries. This suggests service count could also linearly affect the quantity of data sources required for full monitoring coverage.
 
 Consequently creating quite a bit of management overhead:
 
@@ -55,6 +56,11 @@ Consequently creating quite a bit of management overhead:
 
 This setup here will simulate the utilisation of query federation to aggregate cross database metrics resembling that of a typical multi-tenanted architecture.
 
-```sh
-docker compose up
+```bash
+docker compose up --detach
+go run .
 ```
+
+Navigate to `http://localhost:8000/d/federated/example` and you'll see a repeat panel reacting to a `tenant` variable that itself is based off a tenant listing query.
+
+Feel free to also verify only a single datasource is configured.
