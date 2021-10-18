@@ -6,7 +6,7 @@ Postgres is shipped with the [`postgres_fdw`](https://www.postgresql.org/docs/13
 
 Consider a separate database to that of any of the tenants' databases;
 
-```sql
+```
 CREATE SERVER tenant_a_fdw_target
   FOREIGN DATA WRAPPER postgres_fdw
     OPTIONS
@@ -20,7 +20,7 @@ CREATE FOREIGN TABLE tenant_a_entities(
 
 Creates a locally querable construct called `foreign table`.
 
-```sql
+```
 -- \dE to list foreign tables
 
 -- for example, staleness monitoring of entities
